@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body{
+	margin:0;
+	padding:0;
+	background-color:##D4D4D4;
+}
+ header{
+ 	width: 100%;
+  	height: 85px;
+ 	background-color:#141640;
+ 	position: absolute;
+
+ }
+
+ nav a{
+ 	left:10%;
+ 	letter-spacing: 4px;
+	float:left;
+	padding: 10px;
+	 
+ }
+
+
+</style>
+	 <script>
+	 function vali(){
+	 	var nom = document.getElementById("nombre").value.trim();
+	 	var dire = document.getElementById("director").value.trim();
+	 	var dura = document.getElementById("duracion").value.trim();
+	 	var clasi = document.getElementById("clasi").value.trim();
+	    var vali =/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g;
+
+	 	if (nom.length > 20) {
+	 		Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "El nombre es muy largo!!"
+    		});
+	 		 
+	 		return false;
+
+	 	}else if(vali.test(dura)){
+	 		Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "Ingresa Numeros en la duracion!!"
+    		});
+	 		 
+	 		return false;
+	 	}else if(dire.length>20){
+	 		Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "El Director es muy largo!!"
+    		});
+	 		 
+	 		return false;
+	 	}else if(clasi.length>25){
+	 		Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "La clasificacion es muy larga!!"
+    		});
+	 		 
+	 		return false;
+	 	}else if(dura.length>4){
+	 		Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "La Duración es muy larga!!"
+    		});
+	 		 
+	 		return false;
+	 	}else if(nom.length<2){
+	 		Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "El nombre es muy corto!!"
+    		});
+    		return false;
+	 	}else if(dire.length<10){
+	 		Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "El Director es muy corto!!"
+    		});
+    		return false;
+	 	}else if(dura.length<2){
+	 		Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "El Director es muy corto!!"
+    		});
+    		return false;
+	 	}else if(clasi.length<4){
+	 		Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "La Clasificación es muy corta!!"
+    		});
+    		return false;
+	 	}
+	 }	
+	 </script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+	<meta charset="utf-8">
+	<title>CRUD</title>
+</head>
+<body>
+<header>
+	<nav style="">
+		<a href="/" style="font-family:Calibri Light; text-decoration:none; color:#fff;"><h1>CRUD Nodejs</h1></a>
+	</nav>
+</header>	
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+	<div class="row">
+		<div>
+		<h1 class="col-md-2" >Peliculas</h1>
+		</div> 
+		<div class="col-md-7">
+			<table class="table table-bordered table-hover">
+				<thead>
+				<tr>
+					<th>N°</th>
+					<th>Nombre</th>
+					<th>Director</th>
+					<th>Duración</th>
+					<th>Clasificacion</th>
+					<th>Acción</th>
+				</tr>
+				</thead>
+				<tbody>
+					 <% if (data){ %>
+						<% for (var i=0; i < data.length; i++) { %>
+							<tr>
+								<td><%= (i + 1)%></td>
+								<td class="col-md-3"><%= data[i].Nombre %></td>
+								<td><%= data[i].Director %></td>
+								<td><%= data[i].Duración %></td>
+								<td class="col-md-3"><%= data[i].clasificación %></td>
+								<td><a href="/delete/<%= data[i].id%>" class="btn btn-outline-danger">Eliminar</a>
+								<br>
+								<br>
+								<a href="/editar/<%= data[i].id%>" class="btn btn-outline-primary">Modificar</a>
+								</td>
+							</tr>
+						<% } %>
+					<% } %>	
+				</tbody>
+
+			</table>
+		</div>
+
+
+		<div class="col-md-5">
+			<h1>Añadir una Pelicula</h1>
+			<br>
+			<form action="/add" method="post" onsubmit=" return vali();  ">
+				<div class="form-group">
+				<input type="text" name="nombre" placeholder="Nombre" class="form-control is-invalid" required id="nombre"  >
+				</div>
+				<br>
+				<div class="form-group">
+				<input type="text" name="director" placeholder="Director" class="form-control is-invalid" required id="director">
+				</div>
+				<br>
+				<div class="form-group">
+				<input type="text" name="Duración" placeholder="Duración" class="form-control is-invalid" required id="duracion">
+				</div>
+				<br>
+				<div class="form-group">
+				<input type="text" name="Clasificación" placeholder="Clasificación" class="form-control is-invalid" required id="clasi">
+				</div>
+				<br>
+				<button type="submit" class="btn btn-dark" >Agregar</button>
+			</form>
+		</div>
+	 
+
+	</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</body>
+</html>
